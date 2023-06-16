@@ -65,7 +65,7 @@ const FileUpload: FC<Props> = ({ onUpdateSelectedFiles, selectedFiles }) => {
         className={`p-32 lg:p-52 border-2 ${isDragging ? 'border-blue-500' : 'border-gray-300'}`}
       >
         <input type="file" multiple onChange={handleFilesChange} style={{ display: 'none' }} id="file-input" />
-        <p className="mt-2">Click to Select the file or drag and drop files here</p>
+        <p className="mt-2">Click to Select the file | drag and drop files here</p>
 
       </div>
     </>

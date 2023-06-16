@@ -20,12 +20,43 @@ const App: FC = () => {
       results.push({ name: files[i].name, result });
     }
     setFileResults(results);
-
+    console.log(selectedFiles)
   };
   const handleDelete = (index: number) => {
     const updatedFileNames = [...selectedFiles];
     updatedFileNames.splice(index, 1);
     handleSelectedFiles(updatedFileNames);
+  };
+
+  const uploadFiles = async () => {
+    // Create a new FormData instance
+    const formData = new FormData();
+
+    // Add each file to the form data
+    selectedFiles.forEach((file, index) => {
+      formData.append('files', file);
+    });
+
+    // Send a POST request to the server with the form data
+    try {
+      const response = await fetch('http://localhost:4000/upload', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        alert('Error uploading files');
+        return
+      }
+
+      const responseData = await response.text();
+      console.log(responseData);
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Error uploading files');
+      return
+    }
+    alert('Files uploaded successfully');
   };
 
   return (
@@ -34,7 +65,7 @@ const App: FC = () => {
         <h1>Upload Your Txt Files:</h1>
         <FileUpload onUpdateSelectedFiles={handleSelectedFiles} selectedFiles={selectedFiles} />
 
-        <button className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 rounded py-2 md:max-lg:w-full">
+        <button onClick={uploadFiles} className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 rounded py-2 w-full lg:w-auto">
           Upload
         </button>
       </div>
@@ -45,19 +76,19 @@ const App: FC = () => {
           return (
             <div key={index} className="">
               <div className="flex justify-between">
-              <h2 className="font-bold text-xl">{name}</h2>
-              <button
-            className="bg-red-500 hover:bg-red-600 text-white font-bold px-4 rounded"
-            onClick={() => handleDelete(index)}
-          >
-            X
-          </button>
+                <h2 className="font-bold text-xl">{name}</h2>
+                <button
+                  className="bg-red-500 hover:bg-red-600 text-white font-bold px-4 rounded"
+                  onClick={() => handleDelete(index)}
+                >
+                  X
+                </button>
 
               </div>
               <ul>
                 {sortedUsers.map(([user, count], index) => (
                   <li key={user}>
-                    {index +1}. {user} - {count}
+                    {index + 1}. {user} - {count}
                   </li>
                 ))}
               </ul>
