@@ -53,11 +53,6 @@ const FileUpload: FC<Props> = ({ onUpdateSelectedFiles, selectedFiles }) => {
     onUpdateSelectedFiles([...selectedFiles, ...uploadFiles]);
   };
 
-  const handleDelete = (index: number) => {
-    const updatedFileNames = [...selectedFiles];
-    updatedFileNames.splice(index, 1);
-    onUpdateSelectedFiles(updatedFileNames);
-  };
 
 
   return (
@@ -67,24 +62,12 @@ const FileUpload: FC<Props> = ({ onUpdateSelectedFiles, selectedFiles }) => {
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         onClick={() => { document.getElementById('file-input')?.click(); }}
-        className={`p-6 border-2 ${isDragging ? 'border-blue-500' : 'border-gray-300'}`}
+        className={`p-32 lg:p-52 border-2 ${isDragging ? 'border-blue-500' : 'border-gray-300'}`}
       >
         <input type="file" multiple onChange={handleFilesChange} style={{ display: 'none' }} id="file-input" />
         <p className="mt-2">Click to Select the file or drag and drop files here</p>
 
       </div>
-      {selectedFiles.map((file, index) => (
-        <li key={index}>
-          {file.name}{' '}
-          <button
-            className="bg-red-500 hover:bg-red-600 text-white font-bold px-4 rounded"
-            onClick={() => handleDelete(index)}
-          >
-            X
-          </button>
-        </li>
-      ))}
-
     </>
   );
 };
