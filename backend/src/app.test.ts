@@ -5,7 +5,7 @@ describe('POST /upload', () => {
   it('should upload a file', async () => {
     const response = await request(app)
       .post('/upload')
-      .attach('files', path.join(__dirname,'../public/data/testFile.txt'));
+      .attach('files', path.join(__dirname,'../public/data/test.txt'));
     expect(response.status).toBe(200);
     expect(response.text).toBe('Files uploaded successfully.');
   });
