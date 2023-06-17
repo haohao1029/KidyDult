@@ -10,6 +10,9 @@ const parseLogFile = async (file: File): Promise<Record<string, number>> => {
   lines.forEach(line => {
     const match = line.match(/<(.+?)>/);
     line = line.replace(/<.+?>/, '');
+    if (!line.trim()) {
+      return;
+    }
     const count = line.split(' ').length;
     if (match) {
       currentUser = match[1];

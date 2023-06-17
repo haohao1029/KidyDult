@@ -6,11 +6,40 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:80"
+    volumes:
+      - data-volume:/usr/share/nginx/html/public/data
+    depends_on:
+      frontend-test:
+        condition: service_completed_successfully
+      backend-test:
+        condition: service_completed_successfully
+
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
       - "4000:4000"
+    volumes:
+      - data-volume:/app/public/data
+    depends_on:
+      frontend-test:
+        condition: service_completed_successfully
+      backend-test:
+        condition: service_completed_successfully
 
-  
+
+  frontend-test:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    command: ["npm", "run", "prod:test"]
+
+
+  backend-test:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    command: ["npm", "run", "test"]
+volumes:
+  data-volume:
